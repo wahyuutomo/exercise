@@ -8,12 +8,17 @@ void printString(char str[]);
 char * stringReorder(char str[], int index1, int index2);
 int findFirstOccurance(char str[], char aChar);
 char * replaceChars(char str[], char sChar[], char rChar);
+char * insertChar(char str[], char aChar, int index);
 
 int main ()
 {
 	char myString[36] = "charcharcharchar";
 	char test[100];
 	char remove[] = "asd";
+	
+	printf("string length = %d\n",strlen(remove));
+	
+	printf("\n %c \n",myString[3]);
 	
 	printf("before = ");
 	printString(myString);
@@ -45,8 +50,12 @@ int main ()
 	printString(test);
 	printString(remove);
 	
-	printf("----------------------\n");
+	printf("----------- Replace -----------\n");
 	replaceChars(test,remove,'+');
+	printString(test);
+
+	printf("------------ Insert ----------\n");
+	insertChar(test,'@',3);
 	printString(test);
 	return 0;
 }
@@ -134,5 +143,18 @@ char * replaceChars(char str[], char sChar[], char rChar)
 		
 	}
 	
+	return str;
+}
+
+char * insertChar(char str[], char aChar, int index)
+{
+	int j = 0;
+	
+	for(j=strlen(str);j>=index;j--)
+	{
+		str[j+1] = str[j];
+	}
+	str[index] = aChar;
+
 	return str;
 }
