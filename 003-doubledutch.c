@@ -12,100 +12,80 @@ char * insertChar(char str[], char aChar, int index);
 
 int main ()
 {
-	char myString[36] = "charcharcharchar";
-	char test[100];
-	char remove[] = "asd";
-	
-	printf("string length = %d\n",strlen(remove));
-	
-	printf("\n %c \n",myString[3]);
-	
-	printf("before = ");
-	printString(myString);
-	strcpy(myString,remove);
-	printf("after = ");
-	printString(myString);
+	char myString[100];
 	
 	int i;
 	int idx=0;
+	int idx2=0;
 	
 	printf("** Welcome to the Double Dutch game **\n");
-	
 	printf("Please enter a string: ");
-	//scanf(" %100[^\n]s", &test);
-	scanf(" %99[^\n]s", test);
+	scanf(" %99[^\n]s", myString);
 	
-	//printString(myString);
-	printString(test);
+	idx=findFirstOccurance(myString,' ');
 	
-	
-	printf("\n");
-//	stringReorder(test,3,10);
-	
-	printf("\n");
-	idx=findFirstOccurance(test,'a');
-	printf("%d\n",idx);
-	
-	printf("----------------------\n");
-	printString(test);
-	printString(remove);
-	
-	printf("----------- Replace -----------\n");
-	replaceChars(test,remove,'+');
-	printString(test);
+	replaceChars(myString, "aiueo", 'a');
+		
+	if ((myString[0]!='a')&&(myString[0]!='i')&&(myString[0]!='u')&&(myString[0]!='e')&&(myString[0]!='o')&&(myString[0]!='A')&&(myString[0]!='I')&&(myString[0]!='U')&&(myString[0]!='E')&&(myString[0]!='O'))
+		{
+			insertChar(myString, 'a',0);
+			insertChar(myString, 'y',1);
+		}
+		
+		
+	for (i=0;i<=strlen(myString);i++)
+	{
+		idx=findFirstOccurance(myString,' ');
+		if (idx) myString[idx] = '-';
 
-	printf("------------ Insert ----------\n");
-	insertChar(test,'@',3);
-	printString(test);
+		if ((myString[idx+1]!='a')&&(myString[idx+1]!='i')&&(myString[idx+1]!='u')&&(myString[idx+1]!='e')&&(myString[idx+1]!='o')&&(myString[idx+1]!='A')&&(myString[idx+1]!='I')&&(myString[idx+1]!='U')&&(myString[idx+1]!='E')&&(myString[idx+1]!='O'))
+		{
+			insertChar(myString, 'a',idx+1);
+			insertChar(myString, 'y',idx+2);
+			
+		} 
+	}
+	
+	replaceChars(myString,"-",' ');
+	
+	idx = findFirstOccurance(myString,' ');
+	if (idx) myString[idx]='-';
+	idx2 = findFirstOccurance(myString,' ');
+	if (idx2) replaceChars(myString,"-",' ');
+	
+	stringReorder(myString,idx,idx2);	
+	insertChar(myString, ' ',(strlen(myString)-idx2));
+	
+	printf("Double Dutch translation: %s\n", myString);
+	
 	return 0;
 }
 
 void printString(char str[])
 {
-//	int i;
 	printf("%s\n",str);
-//	printf("printed as chars: ");
-//	for (i=0;i<36;i++)
-//	{
-//		printf("%c",str[i]);
-//	}
 	return;
 }
 
 char * stringReorder(char str[], int index1, int index2)
 {
-	char part1[36]="\0";
-	char part2[36]="\0";
-	char part3[36]="\0";
-	char temp[36]="\0";
+	char part1[100]="\0";
+	char part2[100]="\0";
+	char part3[100]="\0";
+	char temp[100]="\0";
 	
-	printf("index1: %d , index2: %d\n", index1,index2);
 	strncpy(part1, &str[0], index1);
 	strncpy(part2, &str[index1], (index2-index1));
 	strncpy(part3, &str[index2], strlen(str)-index2);	
 	strcat(temp, part3);
 	strcat(temp, part1);
 	strcat(temp, part2);
-	printf("Part 1: %s\n",part1);
-	printf("Part 2: %s\n",part2);
-	printf("Part 3: %s\n",part3);
-	printf("Result: %s\n",temp);
 	
 	strcpy(str,temp);
 	
 	return str;
 }
- /*
-	void strclr(char string[])
-	{
-		int i=0;
-		while (string[i]!='\0')
-		{
-			string[i]='\0';
-			i++;
-		}
-	}
-//*/
+
 int findFirstOccurance(char str[], char aChar)
 {
 	int j=0;
