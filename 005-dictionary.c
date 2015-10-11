@@ -16,9 +16,8 @@ int main ()
 	
 	/**TESTING CORNER**/
 	int i;
-	int nwords;
 	static char *dict[10];
-	char *test;
+	
 	for (i=0;i<9;i++)
 		{dict[i]=NULL;}
 	
@@ -26,20 +25,20 @@ int main ()
 	char* word2;
 	
 	///--------------------------------------------///
-	//*
-	dict[0]="kambing";
-	dict[1]="guguk";
-	dict[2]="saya";
-	dict[3]="bukan";
-	dict[4]="yakin";
-	dict[5]="duku";
+	/*
+	dict[0]="apple";
+	dict[1]="union";
+	dict[2]="apple";
+	dict[3]="orange";
+	//dict[4]="yakin";
+	//dict[5]="duku";
 	//*/
 	///--------------------------------------------///
 	//*
 	char op='\0';
 	while (1)
 	{
-		printf("Command (a/p/r/s/o/q): ");
+		printf("Command (a/r/s/p/o/q): ");
 		if (scanf(" %c",&op)==1)
 		{
 			switch(op)
@@ -154,11 +153,9 @@ void addWord(char **dict, char *word)
 {
 	int idx;
 	char *mem;
-	int r=0;
-
 	
 	//free(mem);
-	mem = (char *) malloc(sizeof(char)*(strlen(word)+1));
+	
 //	while(word[r]!='\0')
 //	{
 //		mem[r]=word[r];
@@ -172,8 +169,10 @@ void addWord(char **dict, char *word)
 	{
 	//	printf("Idex = %d\n",idx);
 		//printDict(dict);
+		mem = (char *) malloc(sizeof(char)*(strlen(word)+1));
 		dict[idx]=mem;
 		strcpy(dict[idx],word);
+		
 
 		//printDict(dict);
 		return;
@@ -181,7 +180,7 @@ void addWord(char **dict, char *word)
 		//printf("Idex %d contains word= %s\n",idx, dict[idx]);
 	} else 
 	{
-		printf("Dictionary is already full!! The word could not be added.\n");
+		printf("Dictionary is already full! The word could not be added.\n");
 	}
 }
 
@@ -204,7 +203,8 @@ void removeWord(char **dict, char *word)
 {
 	int i=0;
 	int idx=0;
-	while (dict[i] != NULL)
+	int found=0;
+	while ((dict[i] != NULL) && (found!=1))
 	{
 		if (strcmp(dict[i],word)==0)
 		{
@@ -214,6 +214,7 @@ void removeWord(char **dict, char *word)
 			//printf("\n\nindex %d : %s\n\n",idx,dict[idx]);
 			//printf("\n\nindex %d : %s\n\n",i,dict[i]);
 			dict[idx-1]=NULL;
+			found=1;
 		}
 		i++;	
 	}
@@ -255,18 +256,33 @@ void sortDict(char **dict)
 		//*/
 		for (j=0;j<k-1;j++)
 		{
-			//printf("\ndict[%d] = %s\n",i,dict[i]);
-			//printf("dict[%d] = %s\n",i+1,dict[i+1]);
+			//printf("\nj= %d\n",j);
+			
 			if (strcmp(dict[j],dict[j+1])>0)
 			{
-				swapWords(dict,dict[j],dict[j+1]);
-				//printDict(dict);
+				//printf("\nj= %d\n",j);
+				//printf("\ndict[%d] = %s\n",j,dict[j]);
+				//printf("dict[%d] = %s\n",j+1,dict[j+1]);
+				//swapWords(dict,dict[j],dict[j+1]);
+				//printf("sorted: \n");
+				
 				//k++;
-				//printf("\n%d\n",i);
-				//strcpy(word,dict[i]);
+				//printf("\n%d\n",j);
+				word=(char *)malloc(sizeof(char)*(strlen(dict[j])+1));
+				strcpy(word,dict[j]);
+				//realloc(dict[j],sizeof(char)*(strlen(dict[j+1])+1));
+				//strcpy(dict[j],dict[i+1]);
+				//realloc(dict[j+1],sizeof(char)*(strlen(word)+1));
+				//strcpy(dict[j+1],word);
+				dict[j]=NULL;
+				addWord(dict,dict[j+1]);
+				dict[j+1]=NULL;
+				addWord(dict,word);
+				//free(word);
 				//printf("%s",word);
 				//strcpy(dict[i],dict[i+1]);
 				//strcpy(dict[i+i],word);
+				//printDict(dict);
 			}
 			//printf("\n%d\n",i);
 		}
@@ -274,27 +290,8 @@ void sortDict(char **dict)
 		//printf("\n%d\n",i);
 		//*/
 	}
-	
-	/*
-	while(dict[i]!=NULL)
-	{
-		//printf("\n\ndict[%d] = %s\n",i,dict[i]);
-		printf("dict[%d] = %s\n\n",i+1,dict[i+i]);
-		if (dict[i+1]!=NULL)
-		{
-			
-			if (strcmp(dict[i],dict[i])<0)
-			{
-				printf("\nDOR!!\n");
-				strcpy(word,dict[i]);
-				strcpy(dict[i],dict[i+1]);
-				strcpy(dict[i+i],word);
-			}
-			//printf("\n\ndict[%d] = %s\n\n",i,dict[i+1]);
-		}
-		i++;
-	}
-	//*/
+	//printDict(dict);
+	return;
 }
 ///-------------------TEMPLATE COMMAND-----------------------///
 	/*
