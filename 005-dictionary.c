@@ -9,6 +9,7 @@ void addWord(char **dict, char *word);
 void printDict(char **dict);
 void removeWord(char **dict, char *word);
 void swapWords(char **dict, char *word1, char *word2);
+void sortDict(char **dict);
 
 int main ()
 {
@@ -26,16 +27,19 @@ int main ()
 	
 	///--------------------------------------------///
 	//*
-	dict[0]="anak";
-	dict[1]="kambing";
+	dict[0]="kambing";
+	dict[1]="guguk";
 	dict[2]="saya";
+	dict[3]="bukan";
+	dict[4]="yakin";
+	dict[5]="duku";
 	//*/
 	///--------------------------------------------///
 	//*
 	char op='\0';
 	while (1)
 	{
-		printf("Command (a/p/r/s/q): ");
+		printf("Command (a/p/r/s/o/q): ");
 		if (scanf(" %c",&op)==1)
 		{
 			switch(op)
@@ -83,6 +87,11 @@ int main ()
 					}
 					break;
 				}
+				case ('o') :
+				{
+					sortDict(dict);
+					break;
+				}
 				case ('q') :  return 0;
 			}
 		}
@@ -100,9 +109,9 @@ int main ()
 	//addWord(dict,"Babi");
 	//addWord(dict,"Enak");
 	//printDict(dict);
-	dict[0]="Stupid";
-	dict[1]="Baka";
-	dict[2]="Goublog";
+	//dict[0]="Stupid";
+	//dict[1]="Baka";
+	//dict[2]="Goublog";
 	//removeWord(dict,"Baka");
 	//addWord(dict,"Sate");
 	
@@ -110,10 +119,10 @@ int main ()
 	//printf("%s\n",dict[0]);
 	//printf("%s\n",dict[1]);
 	
-	printDict(dict);
+	//printDict(dict);
 	
-	nwords=numberOfWordsInDict(dict);
-	printf("number of words = %d\n",nwords);
+	//nwords=numberOfWordsInDict(dict);
+	//printf("number of words = %d\n",nwords);
 	//*/
 
 
@@ -188,7 +197,7 @@ void printDict(char **dict)
 		i++;	
 	}
 	
-	if(i==0) printf("The dictionary is empty\n");
+	if(i==0) printf("The dictionary is empty.\n");
 }
 
 void removeWord(char **dict, char *word)
@@ -212,7 +221,6 @@ void removeWord(char **dict, char *word)
 
 void swapWords(char **dict, char *word1, char *word2)
 {	
-	char*tmp;
 	int found=0,found2=0;
 	int i=0;
 	int idx=999,idx2=999;
@@ -224,13 +232,69 @@ void swapWords(char **dict, char *word1, char *word2)
 		//printf("\n\nidx found1= %d, idx found2= %d\n\n",found,found2);
 	} 
 	//printf("%d",i);
-	printf("\n\nidx found1= %d, idx found2= %d\n\n",idx,idx2);
+	//printf("\n\nidx found1= %d, idx found2= %d\n\n",idx,idx2);
 	if ((found==0)||(found2==0)) {printf("Cannot swap words. At least one word missing in the dictionary.\n"); return;}
 	dict[idx]=NULL;
 	addWord(dict,word2);
 	dict[idx2]=NULL;
 	addWord(dict,word1);
 	
+}
+
+void sortDict(char **dict)
+{
+	char *word;
+	int n,k=0;
+	int i=0,j=0;
+	n=numberOfWordsInDict(dict);
+	k=n;
+	for (i=0;i<n-1;i++)
+	{
+		//printf("\n\ndict[%d] = %s\n",i,dict[i]);
+		//printf("dict[%d] = %s\n\n",i+1,dict[i+1]);
+		//*/
+		for (j=0;j<k-1;j++)
+		{
+			//printf("\ndict[%d] = %s\n",i,dict[i]);
+			//printf("dict[%d] = %s\n",i+1,dict[i+1]);
+			if (strcmp(dict[j],dict[j+1])>0)
+			{
+				swapWords(dict,dict[j],dict[j+1]);
+				//printDict(dict);
+				//k++;
+				//printf("\n%d\n",i);
+				//strcpy(word,dict[i]);
+				//printf("%s",word);
+				//strcpy(dict[i],dict[i+1]);
+				//strcpy(dict[i+i],word);
+			}
+			//printf("\n%d\n",i);
+		}
+		k--;
+		//printf("\n%d\n",i);
+		//*/
+	}
+	
+	/*
+	while(dict[i]!=NULL)
+	{
+		//printf("\n\ndict[%d] = %s\n",i,dict[i]);
+		printf("dict[%d] = %s\n\n",i+1,dict[i+i]);
+		if (dict[i+1]!=NULL)
+		{
+			
+			if (strcmp(dict[i],dict[i])<0)
+			{
+				printf("\nDOR!!\n");
+				strcpy(word,dict[i]);
+				strcpy(dict[i],dict[i+1]);
+				strcpy(dict[i+i],word);
+			}
+			//printf("\n\ndict[%d] = %s\n\n",i,dict[i+1]);
+		}
+		i++;
+	}
+	//*/
 }
 ///-------------------TEMPLATE COMMAND-----------------------///
 	/*
