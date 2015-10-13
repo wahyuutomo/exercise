@@ -21,11 +21,13 @@ void freeCarinfo(struct carinfo_t *carinfo);
 void printCarbase(struct carinfo_t **carbase);
 void removeCarinfo(struct carinfo_t **carbase, struct carinfo_t *carinfo);
 
+int ncar=0;
+
 int main ()
 {
 	
 	int i;
-	int ncar=0;
+	
 	struct carinfo_t *carbase[max_size];
 	for (i=0;i<max_size;i++)
 	{carbase[i]=NULL;}
@@ -37,17 +39,20 @@ int main ()
 	
 	struct carinfo_t *carinfo;
 	/*/
-	carinfo = createCarinfo("1", "1", 1, 350.25);
-	addCarinfo(carbase,carinfo);
-	carinfo = createCarinfo("1", "1", 2, 350.25);
-	addCarinfo(carbase,carinfo);
-	carinfo = createCarinfo("1", "1", 3, 350.25);
-	addCarinfo(carbase,carinfo);
+	for(i=0;i<33;i++){
+		carinfo = createCarinfo("1", "1", 1, 350.25);
+		addCarinfo(carbase,carinfo);
+		carinfo = createCarinfo("1", "1", 2, 350.25);
+		addCarinfo(carbase,carinfo);
+		carinfo = createCarinfo("1", "1", 3, 350.25);
+		addCarinfo(carbase,carinfo);
+		}
 	//*/
 	//*
 	char op='\0';
 	while (1)
 	{
+		//printf("ncar = %d\n",ncar);
 		printf("Command (a/r/p/q): ");
 		if (scanf(" %c",&op)==1)
 		{
@@ -68,7 +73,7 @@ int main ()
 					carinfo = createCarinfo(brand,model,year,value);
 					
 					addCarinfo(carbase,carinfo);
-					ncar=ncar+1;
+					//ncar=ncar+1;
 					//freeCarinfo(carinfo);
 					break;
 				}
@@ -90,7 +95,7 @@ int main ()
 					
 					removeCarinfo(carbase,carinfo);
 					ncar=ncar-1;
-					//printCarbase(carbase);
+					
 					break;
 				}
 				case ('q') : return 0;
@@ -159,9 +164,10 @@ void addCarinfo(struct carinfo_t **carbase, struct carinfo_t*carinfo)
 	int n=0;
 	n=numberOfCarInfo(carbase);
 	
-	if (n<100){
+	if (ncar<100){
 		
-		carbase[n] = carinfo;	
+		carbase[n] = carinfo;
+		ncar=ncar+1;	
 		/*/
 		//carbase[n]->brand = (char *) malloc (sizeof(char)*(strlen(carinfo->brand)+1));
 		//carbase[n]->model = (char *) malloc (sizeof(char)*(strlen(carinfo->model)+1));
@@ -171,7 +177,7 @@ void addCarinfo(struct carinfo_t **carbase, struct carinfo_t*carinfo)
 		carbase[n]->value = carinfo->value;
 		//*/
 		//carbase[n]=createCarinfo(carinfo->brand, carinfo->model, carinfo->year, carinfo->value);
-	} else {printf("Failed adding car; carbase is already full!\n"); return;}
+	} else {printf("Failed adding car; carbase is already full!"); return;}
 }
 
 int numberOfCarInfo(struct carinfo_t **carbase)
@@ -249,9 +255,9 @@ void removeCarinfo(struct carinfo_t **carbase, struct carinfo_t *carinfo)
 		{
 			if ((strcmp(carbase[i]->brand,carinfo->brand)==0)&&(strcmp(carbase[i]->brand,carinfo->brand)==0)&&(carbase[i]->year==carinfo->year))
 				{
-					printf("FOUND!! %d\n",i);
+					//printf("FOUND!! %d\n",i);
 					freeCarinfo(carbase[i]);
-					printf("after freecar info: \n");
+					//printf("after freecar info: \n");
 					
 					carbase[i] = NULL;
 					//n=n-1;
@@ -259,9 +265,7 @@ void removeCarinfo(struct carinfo_t **carbase, struct carinfo_t *carinfo)
 					//createCarinfo
 					//freeCarinfo(carbase[n-1]);
 					
-					
-					
-					printf("found\n");
+					//printf("found\n");
 					
 				}
 			//else {i++;}
